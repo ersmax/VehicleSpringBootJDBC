@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Project02VehiclesJdbCspringBootApplication {
+public class VehiclesJdbCspringBootApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Project02VehiclesJdbCspringBootApplication.class, args);
+		SpringApplication.run(VehiclesJdbCspringBootApplication.class, args);
 	}
 
 }
