@@ -138,12 +138,32 @@ public class ListImplementation {
 								 .toArray(String[]::new);
 		
 		Map<String, String> filters = StringParsing.mapKeyValue(rawFilters);
+		validateFilters(filters);
 		
-		List<String> vehicles = (filters.isEmpty()) 
-								? storeAll() 
-								: storeFiltered(filters);
-		
+		List<String> vehicles = vehiclesDAO.findByFilters(filters)
+										   .stream()
+										   .map(Vehicles::toString)
+										   .toList();		
 		saveVehicles(vehicles, parameterList);
+	}
+	
+	/**
+	 * Check the validity of filters before querying the database.
+	 * Names and types come from VehiclesDAO.FILTERS, so each filter is defined only once.
+	 * @param filters	: key-value filters from the list row
+	 */
+	private void validateFilters(Map<String, String> filters) {
+		for (String key : filters.keySet()) {
+			String type = VehiclesDAO.FILTERS.get(key);
+			if (type == null)
+				throw new CustomException("Unknown filter: " + key
+										+ ". Allowed: " + VehiclesDAO.FILTERS.keySet());
+			switch (type) {
+				case "I" -> Validation.getInt(filters, key);	 // Parameter year must be a number
+				case "B" -> Validation.getBoolean(filters, key); // "Parameter foldable must be yes/no"
+				default  -> Validation.getString(filters, key);	 // Missing parameter (e.g. color = )
+			}
+		}
 	}
 	
 	/**
@@ -174,66 +194,5 @@ public class ListImplementation {
 							  .toList();
 	}
 	
-	/**
-	 * Save and return in a list those vehicles that have the attributes 
-	 * (and values) stated in the filters
-	 * @param filters
-	 * @return
-	 */
-	private List<String> storeFiltered(Map<String, String> filters) {
-		
-		for (String key : filters.keySet())
-		    if (!KNOWN_FILTERS.contains(key))
-		        throw new CustomException("Unknown filter: " + key + ". Allowed: " + KNOWN_FILTERS);
-		
-		// given any vehicle, answer yes. Initialization
-		Predicate<Vehicles> predicate = vehicle -> true;		
-		
-		// Vehicle
-		if (filters.get("type") != null)
-			predicate = predicate.and(vehicle -> vehicle.getVehicleType().equalsIgnoreCase(filters.get("type")));
-		if (filters.get("brand") != null)
-			predicate = predicate.and(vehicle -> vehicle.getBrand().equalsIgnoreCase(filters.get("brand")));
-		if (filters.get("model") != null)
-			predicate = predicate.and(vehicle -> vehicle.getModel().equalsIgnoreCase(filters.get("model")));
-		if (filters.get("color") != null)
-			predicate = predicate.and(vehicle -> vehicle.getColor().equalsIgnoreCase(filters.get("color")));
-		if (filters.get("fuel") != null)
-			predicate = predicate.and(vehicle -> vehicle.getFuelType().equalsIgnoreCase(filters.get("fuel")));
-		if (filters.get("category") != null)
-			predicate = predicate.and(vehicle -> vehicle.getCategory().equalsIgnoreCase(filters.get("category")));
-		if (filters.get("year") != null)
-			predicate = predicate.and(vehicle -> String.valueOf(vehicle.getProductionYear()).equals(filters.get("year")));
-		
-		// Car + Bike
-		if (filters.get("plate") != null)
-			predicate = predicate.and(vehicle -> (vehicle instanceof Car car && 
-												  car.getPlate().equalsIgnoreCase(filters.get("plate")))
-											  || (vehicle instanceof Bike bike && 
-												  bike.getPlate().equalsIgnoreCase(filters.get("plate"))));
-		if (filters.get("cc") != null) 
-	        predicate = predicate.and(vehicle -> (vehicle instanceof Car car   && 
-	        									  String.valueOf(car.getCc()).equals(filters.get("cc")))
-	        								  || (vehicle instanceof Bike bike && 
-	        									  String.valueOf(bike.getCc()).equals(filters.get("cc"))));
-	    // Car only
-	    if (filters.get("doors") != null) 
-	        predicate = predicate.and(vehicle -> vehicle instanceof Car car && 
-	        									 String.valueOf(car.getNumberDoors()).equals(filters.get("doors")));
-	    // Bicycle only
-	    if (filters.get("gears") != null) 
-	        predicate = predicate.and(vehicle -> vehicle instanceof Bicycle bicycle && 
-	        									 String.valueOf(bicycle.getNumberGears()).equals(filters.get("gears")));
-	    if (filters.get("suspension") != null)
-	        predicate = predicate.and(vehicle -> vehicle instanceof Bicycle bicycle &&
-	                                             bicycle.getTypeSuspensions().equalsIgnoreCase(filters.get("suspension")));
-	    if (filters.get("foldable") != null)
-	        predicate = predicate.and(vehicle -> vehicle instanceof Bicycle bicycle &&
-	                                             bicycle.getFoldable() == filters.get("foldable").equalsIgnoreCase("yes"));	    
-		
-	    return vehicleRegistry.stream()
-							  .filter(predicate)
-							  .map(Vehicles::toString)
-							  .toList();
-	}
+	
 }
