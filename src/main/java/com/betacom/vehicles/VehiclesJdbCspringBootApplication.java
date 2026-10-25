@@ -1,17 +1,17 @@
 package com.betacom.vehicles;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
-import com.betacom.vehicles.exception.CustomException;
+import com.betacom.vehicles.process.StartVehicle;
+
 import lombok.extern.slf4j.Slf4j;
-import com.betacom.vehicles.VehiclesJdbCspringBootApplication;
 
 @Slf4j
-//@SpringBootApplication
+@SpringBootApplication
 public class VehiclesJdbCspringBootApplication {
 
 	public static final String INPUT_FILE 	= "data/readData.txt";
@@ -21,47 +21,31 @@ public class VehiclesJdbCspringBootApplication {
 	// dynamic call: the compiler doesn't know this class is used. It's only found at runtime.
 	private static final String PROCESS = "com.betacom.vehicles.process.StartVehicle";
 
+	// inject StartVehicle bean in the field
+	@Autowired
+	private StartVehicle startVehicle;
+	
 	public static void main(String[] args) {
-		log.info("Start Vehicles");
-
-		try {
-			Object process = loadProcess(PROCESS);
-			executeOperation(process);
-			log.info("End Main Vehicles");
-		} catch (Exception e) {
-			log.error("Error found: {}", e.getMessage());
-		}
+		SpringApplication.run(VehiclesJdbCspringBootApplication.class, args);
 	}
-
-	private static Object loadProcess(String className) throws Exception {
-		try {
-			Class<?> myClass = Class.forName(className);	// load class
-			Object object = myClass.getDeclaredConstructor().newInstance();
-			return object;
-		} catch (ClassNotFoundException e) {
-			throw new Exception("Process not found: " + className);
-		}
+		
+	@Bean
+	CommandLineRunner startup() {
+		return args -> {
+			log.info("Start jdbc managed by Springboot ***");	
+			startVehicle.execute();
+			log.info("End Vehicle");
+		};
 	}
-
-	private static void executeOperation(Object process) {
-		try {
-			// dynamic call: find the method by name, then invoke on the object
-			Method method = process.getClass().getMethod("execute");
-			method.invoke(process);
-
-		} catch (SecurityException e) {			// a security policy blocks reflection
-			throw new CustomException("Security error: " + e.getMessage());
-		} catch (IllegalAccessException e) {	// execute exists but isn't public
-			throw new CustomException("Illegal access: " + e.getMessage());
-		} catch (IllegalArgumentException e) {	// wrong arguments passed to invoke
-			throw new CustomException("Illegal argument: " + e.getMessage());
-		} catch (NoSuchMethodException e) {		// no public execute() in the class
-			throw new CustomException("execute method not found");
-
-		} catch (InvocationTargetException e) {
-			// execute() ran and threw an error itself; the real one is in getCause()
-			throw new CustomException(e.getCause().getMessage());
-		}
-	}
-
 }
+
+/* alternative to lambda:
+return new CommandLineRunner() {
+	@Override
+	public void run(String... args) throws Exception {
+		log.info("Start jdbc managed by Springboot ***");	
+		startVehicle.execute();
+		log.info("End Vehicle");
+	}
+};
+*/
