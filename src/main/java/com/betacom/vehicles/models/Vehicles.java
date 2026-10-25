@@ -4,12 +4,16 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @ToString
+@SuperBuilder
+@NoArgsConstructor
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, 	// make Jackson write the type name of each object into the JSON as a type field
 			  include = JsonTypeInfo.As.EXISTING_PROPERTY,
 			  property = "vehicleType",
@@ -29,4 +33,5 @@ public class Vehicles {
 	private String 	brand;
 	private Integer productionYear;
 	private String 	model;
+	private Integer numberGears;
 }

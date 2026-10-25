@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import org.springframework.stereotype.Component;
+
 import com.betacom.vehicles.exception.CustomException;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.betacom.vehicles.models.Bicycle;
 import com.betacom.vehicles.models.Bike;
@@ -21,16 +25,17 @@ import com.betacom.vehicles.utils.FileManager;
 import com.betacom.vehicles.utils.JsonTransfer;
 import com.betacom.vehicles.utils.Validation;
 import com.betacom.vehicles.VehiclesJdbCspringBootApplication;
+import com.betacom.vehicles.dao.VehiclesDAO;
 
 @Slf4j
+@RequiredArgsConstructor
+@Component
 public class ListImplementation {
 	
 	private static final List<Vehicles> vehicleRegistry = VehicleRegistry.getSingleton().getVehicleRegistry();
 	
-	// filters accepted by "list"
-	private static final List<String> KNOWN_FILTERS = List.of(
-	        "type", "brand", "model", "color", "fuel", "category", "year",
-	        "plate", "cc", "doors", "gears","suspension","foldable");
+	// DAO that runs the SQL on the vehicles tables (findAll, findIdByPlate, delete, etc)
+	private final VehiclesDAO vehiclesDAO;
 	
 	private static final String PATH_SERVICES = "com.betacom.vehicles.services";
 
