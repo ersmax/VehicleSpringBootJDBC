@@ -1,0 +1,89 @@
+// Add parameters here
+add,car,wheels=4,fuel=petrol,category=road,color=white,brand=fiat,year=2025,model=500,doors=4,plate=el234gx,cc=1200
+add,car,wheels=4,fuel=petrol,category=road,color=white,brand=fiat,year=2026,model=panda,doors=4,plate=fl234gx,cc=1300
+add,car,wheels=4,fuel=petrol,category=road,color=white,brand=fiat,year=2026,model=panda,doors=4,plate=fl234gx,cc=1300
+add,bike,wheels=2,fuel=petrol,category=road,color=black,brand=Yamaha,year=2025,model=r1,plate=EL22239,cc=900
+add,bicycle,wheels=2,fuel=manual,category=road,color=black,brand=Bianchi,year=2025,model=Grizl 5,gears=10,suspension=no,foldable=no
+
+// ---------- VALID ROWS (must be added) ----------
+add,car,wheels=4,fuel=petrol,category=road,color=white,brand=fiat,year=2025,model=500,doors=4,plate=el234gx,cc=1200
+add,car,wheels=4,fuel=petrol,category=road,color=white,brand=fiat,year=2026,model=panda,doors=4,plate=fl234gx,cc=1300
+add,bike,wheels=2,fuel=petrol,category=road,color=black,brand=Yamaha,year=2025,model=r1,plate=EL22239,cc=900
+add,bicycle,wheels=2,fuel=manual,category=road,color=black,brand=Bianchi,year=2025,model=Grizl 5,gears=10,suspension=no,foldable=no
+// uppercase values are accepted (getOneOf / getBoolean ignore case)
+add,car,wheels=4,fuel=DIESEL,category=SUV,color=Red,brand=jeep,year=2022,model=renegade,doors=5,plate=gh456ij,cc=1600
+add,bicycle,wheels=2,fuel=electric,category=citycar,color=blue,brand=Brompton,year=2024,model=electric,gears=3,suspension=yes,foldable=YES
+
+// ---------- getOneOf: fuel, category, color ----------
+add,car,wheels=4,fuel=banana,category=road,color=red,brand=fiat,year=2020,model=uno,doors=4,plate=aa001aa,cc=1000
+add,car,wheels=4,fuel=diesel,category=steeringwheel,color=red,brand=fiat,year=2020,model=uno,doors=4,plate=aa002aa,cc=1000
+add,bike,wheels=2,fuel=petrol,category=road,color=fuchsia,brand=Honda,year=2024,model=cbr,plate=AB12345,cc=600
+add,car,wheels=4,fuel=,category=road,color=red,brand=fiat,year=2020,model=uno,doors=4,plate=aa003aa,cc=1000
+add,car,wheels=4,category=road,color=red,brand=fiat,year=2020,model=uno,doors=4,plate=aa004aa,cc=1000
+
+// ---------- getYear: valid year  ----------
+add,car,wheels=4,fuel=diesel,category=road,color=red,brand=fiat,year=2099,model=uno,doors=4,plate=aa010aa,cc=1000
+add,car,wheels=4,fuel=diesel,category=road,color=red,brand=fiat,year=1800,model=uno,doors=4,plate=aa011aa,cc=1000
+
+// ---------- getInt: numbers only ----------
+add,car,wheels=4,fuel=diesel,category=road,color=red,brand=fiat,year=twothousand,model=uno,doors=4,plate=aa005aa,cc=1000
+add,car,wheels=four,fuel=diesel,category=road,color=red,brand=fiat,year=2020,model=uno,doors=4,plate=aa006aa,cc=1000
+add,bike,wheels=2,fuel=petrol,category=road,color=black,brand=Honda,year=2024,model=cbr,plate=AB12346,cc=6OO
+add,bicycle,wheels=2,fuel=manual,category=road,color=black,brand=X,year=2024,model=Y,gears=7.5,suspension=yes,foldable=no
+
+// ---------- getBool: foldable ----------
+add,bicycle,wheels=2,fuel=manual,category=road,color=black,brand=X,year=2024,model=Y,gears=7,suspension=yes,foldable=maybe
+
+// ---------- wheels per vehicle type ----------
+add,car,wheels=2,fuel=diesel,category=road,color=red,brand=fiat,year=2020,model=uno,doors=4,plate=aa007aa,cc=1000
+add,bike,wheels=4,fuel=petrol,category=road,color=black,brand=Honda,year=2024,model=cbr,plate=AB12347,cc=600
+add,bicycle,wheels=3,fuel=manual,category=road,color=black,brand=X,year=2024,model=Y,gears=7,suspension=yes,foldable=no
+
+// ---------- plate: missing, empty, duplicate ----------
+add,bike,wheels=2,fuel=petrol,category=road,color=black,brand=Honda,year=2024,model=cbr,cc=600
+add,bike,wheels=2,fuel=petrol,category=road,color=black,brand=Honda,year=2024,model=cbr,plate=,cc=600
+add,car,wheels=4,fuel=petrol,category=road,color=white,brand=fiat,year=2026,model=panda,doors=4,plate=fl234gx,cc=1300
+add,bike,wheels=2,fuel=petrol,category=road,color=black,brand=Ducati,year=2023,model=monster,plate=el22239,cc=900
+
+// ---------- parsing ----------
+add,car,wheels=4,fuel=diesel,category=road,color=red,brand=fiat,year=2020,model=uno,doors4,plate=aa008aa,cc=1000
+add,car,wheels=4,fuel=diesel,fuel=petrol,category=road,color=red,brand=fiat,year=2020,model=uno,doors=4,plate=aa009aa,cc=1000
+
+// ---------- operation and vehicle type ----------
+delete
+add,truck,wheels=6
+add
+
+
+
+list
+add,car,wheels=4,fuel=petrol,category=road,color=white,brand=fiat,year=2025,model=500,doors=4,plate=zl234hx,cc=1200
+list
+list,type=car,color=white
+list,plate=fl234gx
+list,suspension=no
+list,color=purple
+list,year=abc
+list,speed=100
+list,color=white
+list,color=white,brand=fiat
+list,color=white,model=panda
+list,type=bicycle,color=black
+list,color=white,doors=5
+list,color=purple
+list,speed=100
+list,color=white,color=black
+list,color
+delete,plate=el234gx
+delete,id=4
+delete,plate=zz999zz
+delete
+delete,id=1
+list
+// export 
+// import
+update,plate=FL234GX,color=red,cc=1400
+update,plate=EL22239,color=white
+update,id=999,color=red
+update,color=red
+list

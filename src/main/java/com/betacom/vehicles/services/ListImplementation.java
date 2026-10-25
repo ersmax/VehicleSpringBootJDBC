@@ -32,7 +32,7 @@ public class ListImplementation {
 	        "type", "brand", "model", "color", "fuel", "category", "year",
 	        "plate", "cc", "doors", "gears","suspension","foldable");
 	
-	private static final String PATH_SERVICES = "services";
+	private static final String PATH_SERVICES = "com.betacom.vehicles.services";
 
 	// cache: map the vehicle type to the service instance
 	private static final Map<String, VehicleAbstract> vehicleCache = new HashMap<>();

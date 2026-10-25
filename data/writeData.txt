@@ -1,0 +1,71 @@
+### list (4 found) ###
+Car(super=Vehicles(id=1, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=EL234GX, cc=1200, numberDoors=4)
+Car(super=Vehicles(id=2, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2026, model=panda), plate=FL234GX, cc=1300, numberDoors=4)
+Bike(super=Vehicles(id=3, vehicleType=bike, numberWheels=2, fuelType=petrol, category=road, color=black, brand=Yamaha, productionYear=2025, model=r1), plate=EL22239, cc=900)
+Car(super=Vehicles(id=4, vehicleType=car, numberWheels=4, fuelType=diesel, category=suv, color=red, brand=jeep, productionYear=2022, model=renegade), plate=GH456IJ, cc=1600, numberDoors=5)
+
+
+### list (5 found) ###
+Car(super=Vehicles(id=1, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=EL234GX, cc=1200, numberDoors=4)
+Car(super=Vehicles(id=2, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2026, model=panda), plate=FL234GX, cc=1300, numberDoors=4)
+Bike(super=Vehicles(id=3, vehicleType=bike, numberWheels=2, fuelType=petrol, category=road, color=black, brand=Yamaha, productionYear=2025, model=r1), plate=EL22239, cc=900)
+Car(super=Vehicles(id=4, vehicleType=car, numberWheels=4, fuelType=diesel, category=suv, color=red, brand=jeep, productionYear=2022, model=renegade), plate=GH456IJ, cc=1600, numberDoors=5)
+Car(super=Vehicles(id=5, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=ZL234HX, cc=1200, numberDoors=4)
+
+
+### list,type=car,color=white (3 found) ###
+Car(super=Vehicles(id=1, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=EL234GX, cc=1200, numberDoors=4)
+Car(super=Vehicles(id=2, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2026, model=panda), plate=FL234GX, cc=1300, numberDoors=4)
+Car(super=Vehicles(id=5, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=ZL234HX, cc=1200, numberDoors=4)
+
+
+### list,plate=fl234gx (1 found) ###
+Car(super=Vehicles(id=2, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2026, model=panda), plate=FL234GX, cc=1300, numberDoors=4)
+
+
+### list,suspension=no (0 found) ###
+
+
+### list,color=purple (0 found) ###
+
+
+### list,year=abc (0 found) ###
+
+
+### list,color=white (3 found) ###
+Car(super=Vehicles(id=1, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=EL234GX, cc=1200, numberDoors=4)
+Car(super=Vehicles(id=2, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2026, model=panda), plate=FL234GX, cc=1300, numberDoors=4)
+Car(super=Vehicles(id=5, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=ZL234HX, cc=1200, numberDoors=4)
+
+
+### list,color=white,brand=fiat (3 found) ###
+Car(super=Vehicles(id=1, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=EL234GX, cc=1200, numberDoors=4)
+Car(super=Vehicles(id=2, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2026, model=panda), plate=FL234GX, cc=1300, numberDoors=4)
+Car(super=Vehicles(id=5, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=ZL234HX, cc=1200, numberDoors=4)
+
+
+### list,color=white,model=panda (1 found) ###
+Car(super=Vehicles(id=2, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2026, model=panda), plate=FL234GX, cc=1300, numberDoors=4)
+
+
+### list,type=bicycle,color=black (0 found) ###
+
+
+### list,color=white,doors=5 (0 found) ###
+
+
+### list,color=purple (0 found) ###
+
+
+### list (3 found) ###
+Car(super=Vehicles(id=2, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2026, model=panda), plate=FL234GX, cc=1300, numberDoors=4)
+Bike(super=Vehicles(id=3, vehicleType=bike, numberWheels=2, fuelType=petrol, category=road, color=black, brand=Yamaha, productionYear=2025, model=r1), plate=EL22239, cc=900)
+Car(super=Vehicles(id=5, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=ZL234HX, cc=1200, numberDoors=4)
+
+
+### list (3 found) ###
+Car(super=Vehicles(id=2, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2026, model=panda), plate=FL234GX, cc=1300, numberDoors=4)
+Bike(super=Vehicles(id=3, vehicleType=bike, numberWheels=2, fuelType=petrol, category=road, color=black, brand=Yamaha, productionYear=2025, model=r1), plate=EL22239, cc=900)
+Car(super=Vehicles(id=5, vehicleType=car, numberWheels=4, fuelType=petrol, category=road, color=white, brand=fiat, productionYear=2025, model=500), plate=ZL234HX, cc=1200, numberDoors=4)
+
+
