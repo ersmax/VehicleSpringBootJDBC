@@ -8,14 +8,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import com.betacom.vehicles.enums.Operation;
 import com.betacom.vehicles.exception.CustomException;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.betacom.vehicles.services.ListImplementation;
 import com.betacom.vehicles.utils.FileManager;
 import com.betacom.vehicles.VehiclesJdbCspringBootApplication;
 
 @Slf4j
+@RequiredArgsConstructor
+@Component
 public class StartVehicle {
 	
 	
@@ -23,11 +29,8 @@ public class StartVehicle {
 	public static final int VEHICLE_TYPE = 1;
 	public static final int PARAMETERS = 2; 
 	
-	// one instance of service for all rows
-	private static final ListImplementation service = new ListImplementation();
-	
-	// cache: Method objects found by reflection
-	private static final Map<Operation, Method> methodsCache = new HashMap<>();
+	// Service injected with constructor injection
+	private final ListImplementation service;
 	
 	/**
 	 * Clear writing file, Read rows and process each single row
@@ -77,6 +80,7 @@ public class StartVehicle {
 	}
 	
 	/**
+	 * Dynamic calls to the operation.
 	 * Dispatch to the correct operation handling (etc addVehicle), or handle errors.
 	 * The operation is in ListImplementation
 	 * @param operation			: the operation code in Enum format
@@ -84,51 +88,37 @@ public class StartVehicle {
 	 */
 	private void handleOperation(Operation operation, String[] parametersList) {
 		try {
-			Method method = StartVehicle.getMethod(operation);
+			Method method = service.getClass().getMethod(operation.getMethodName(), String[].class); 
 			method.invoke(service, (Object) parametersList);
 		} catch (SecurityException e) {
 			throw new CustomException("Security error: " + e.getMessage());
+		} catch (NoSuchMethodException e) {
+			throw new CustomException("Operation not supported: " + operation);
 		} catch (IllegalAccessException e) {
 			throw new CustomException("Illegal access: " + e.getMessage());
 		} catch (IllegalArgumentException e) {
 			throw new CustomException("Illegal argument: " + e.getMessage());
 		} catch (InvocationTargetException e) {
 			throw new CustomException(e.getCause().getMessage());
-			// method.invoke can’t know at compile time what the method throws
-			// so if the method invoked started, the call succeed
-			// but if the method fails, it throws an exception.
-			// It might throw IOException, SQLException, nothing, or anything else. 
-			// invoke can’t declare all possible exceptions. 
-			// So it declares one fixed type, InvocationTargetException, 
-			// which means “the method ran and threw something, and here it is inside”. 
-			// That keeps checked exceptions consistent: 
-			// you’re still forced to handle a possible error, just under one name.
-			// So, strictly speaking, InvocationTargetException doesn’t catch the IOException. 
-			// It carries it: invoke catches whatever the method throws, puts it inside 
-			// a new InvocationTargetException, and throws that. 
-			// The original is still there, in getCause().
-			// getCause() gives back the original IOException or CustomException, 
-			// so the log shows the real message and not “InvocationTargetException”.
 		}
 	}
-	
-	/**
-	 * Get the right method (add, list, etc) according to the proper enum operation
-	 * @param operation
-	 * @return
-	 */
-	private static Method getMethod(Operation operation) {
-		if (methodsCache.containsKey(operation))
-			return methodsCache.get(operation);
-		try {
-			// search methods (addVehicle, listVehciles, etc) that takes an array of String as parameter
-			Method method = service.getClass().getMethod(operation.getMethodName(), String[].class);
-			methodsCache.put(operation, method);			
-			return method;
-			
-		} catch (NoSuchMethodException e) {
-			throw new CustomException("Operation not supported: " + operation);
-		}
-	}
-
 }
+
+/*
+ * Clarification on InvocationTargetException:
+	 method.invoke can’t know at compile time what the method throws
+	 so if the method invoked started, the call succeed
+	 but if the method fails, it throws an exception.
+	 It might throw IOException, SQLException, nothing, or anything else. 
+	 invoke can’t declare all possible exceptions. 
+	 So it declares one fixed type, InvocationTargetException, 
+	 which means “the method ran and threw something, and here it is inside”. 
+	 That keeps checked exceptions consistent: 
+	 you’re still forced to handle a possible error, just under one name.
+	 So, strictly speaking, InvocationTargetException doesn’t catch the IOException. 
+	 It carries it: invoke catches whatever the method throws, puts it inside 
+	 a new InvocationTargetException, and throws that. 
+	 The original is still there, in getCause().
+	 getCause() gives back the original IOException or CustomException, 
+	 so the log shows the real message and not “InvocationTargetException”.
+ */

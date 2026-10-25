@@ -3,6 +3,7 @@ package com.betacom.vehicles.enums;
 
 public enum Operation {
 	ADD("addVehicle"),
+	UPDATE("updateVehicle"),
 	DELETE("deleteVehicle"),
 	LIST("listVehicles"),
 	EXPORT("exportVehicles"),
